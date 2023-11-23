@@ -12,7 +12,7 @@ or
 
 ```bash
 git clone https://github.com/BIMCV-CSUSP/xnat-download.git
-cd BIMCV-AIKit
+cd xnat-download
 pip install -e .
 ```
 
