@@ -6,6 +6,7 @@ from io import StringIO
 from .variables import dict_uris
 from .variables import dict_paths
 
+from .variables import format_message
 from .request import try_to_request
 
 
@@ -45,8 +46,6 @@ class ScanResources(dict):
         for row in reader:
             self.dict_resources[row["Name"]] = dict(**row)
         output.close()
-
-from .variables import format_message
 
     def download_dicom(self, path_download, filename, overwrite=False, verbose=False):
         complet_path = path_download.joinpath(
