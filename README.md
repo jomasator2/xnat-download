@@ -5,7 +5,7 @@ This software allows the user to download one project from XNAT platform (versio
 ## Installation
 
 ```bash
-python3 -m pip git+https://github.com/BIMCV-CSUSP/xnat-download.git#egg=xnat_downloader
+python3 -m pip install git+https://github.com/BIMCV-CSUSP/xnat-download.git#egg=xnat_downloader
 ```
 
 or
