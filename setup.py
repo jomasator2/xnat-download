@@ -4,7 +4,7 @@
 
 
 import pathlib
-from setuptools import setup
+from setuptools import find_packages, setup
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
@@ -41,4 +41,5 @@ setup(
     packages=["xnat_downloader"],
     include_package_data=True,
     install_requires=requirements,
+    py_modules=find_packages(),
 )
