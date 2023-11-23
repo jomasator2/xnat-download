@@ -38,8 +38,7 @@ setup(
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
         "Programming Language :: Python :: 3 :: Only",
     ],
-    packages=["xnat_downloader"],
+    packages=find_packages(),
     include_package_data=True,
     install_requires=requirements,
-    py_modules=find_packages(),
 )
