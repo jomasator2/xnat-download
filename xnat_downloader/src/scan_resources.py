@@ -96,9 +96,9 @@ class ScanResources(dict):
             self.is_metadata_saved = True
             self.store_metadata(dicom_path, dicom_path_metadata.format("DICOM"))
 
-        if "note" in self.keys():
+        if self["scan"]:
             with open(dicom_path_note, "wb") as dicom_file:
-                dicom_file.write(self["note"])
+                dicom_file.write(self["scan"]["note"])
 
     def download_nifti(self, path_download, filename, overwrite=False, verbose=False):
         complet_path = path_download.joinpath(
