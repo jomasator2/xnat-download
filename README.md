@@ -106,3 +106,24 @@ To contribute to the project, follow these steps:
 5. **Create a Pull Request** through GitHub's interface, detailing the improvements or features added.
 
 This process will initiate a review and, once approved, your changes will be merged into the main branch.
+
+## License
+
+This project is licensed under the GNU General Public License v3.0. You are free to use, modify, and distribute this software under the following conditions:
+
+## GNU General Public License v3.0
+
+```text
+Copyright (C) [2024] [Jose Manuel Saborit Torres]
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program. If not, see <https://www.gnu.org/licenses/>.
