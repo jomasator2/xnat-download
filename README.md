@@ -28,57 +28,81 @@ python3 -m pip install git+https://github.com/BIMCV-CSUSP/xnat-download.git#egg=
 
 ## Usage
 
-An example of execution is:
+The `xnat_downloader` CLI allows users to download imaging data from an XNAT (eXtensible Neuroimaging Archive Toolkit) server efficiently. This tool requires the XNAT server URL, a username, and the output directory to store downloaded data.
 
 ```bash
 python3 -m xnat_downloader -o DIR_TO_SAVE -w XNAT_WEB -u USER
 ```
-### Command Options
 
-1. **`-o DIR_TO_SAVE`** (Output Directory):
-   - Specifies the directory where the downloaded data will be saved.
-   - `DIR_TO_SAVE` is a path to the local directory in which you want to store the files downloaded from XNAT.
-   - Example: `-o /path/to/local/directory`
+### Parameters
 
-2. **`-w XNAT_WEB`** (XNAT Web URL):
-   - Indicates the URL of the XNAT server from which the data will be downloaded.
-   - `XNAT_WEB` is the base URL of the XNAT instance (e.g., `https://central.xnat.org`).
-   - Example: `-w https://xnat.example.com`
+- **`-o, --output DIR_TO_SAVE`**  
+  Specify the directory where the data will be saved. This path should be writable and have sufficient storage space for the downloaded files.
+  
+- **`-w, --web XNAT_WEB`**  
+  URL of the XNAT server from which the data will be downloaded. This URL is generally in the form of `https://xnat.example.com`.
+  
+- **`-u, --user USER`**  
+  The username for authentication on the XNAT server. This user should have the necessary permissions to access the data.
 
-3. **`-u USER`** (Username):
-   - Specifies the username for authentication on the XNAT server.
-   - `USER` should be a valid XNAT account with permission to access the projects and data you wish to download.
-   - After entering this command, the tool may prompt you to enter the password or an API token for secure authentication.
+### Example
 
-### Full Command Example
-Here’s an example of how to use the command to download data:
+To download data from an XNAT server at `https://xnat.example.com`, using the username `myusername`, and save the data in the `data_downloads` directory, you would run:
 
 ```bash
-python3 -m xnat_downloader -o /path/to/save/data -w https://xnat.example.com -u myusername
+python3 -m xnat_downloader -o data_downloads -w https://xnat.example.com -u myusername
 ```
 
-This command will:
-1. Access the XNAT server at `https://xnat.example.com` using the provided username (`myusername`).
-2. Download the specified data to `/path/to/save/data` on your local system.
+### Additional Information
+
+- **Authentication**: The script may prompt for a password after execution if the server requires it. Ensure the user account has the correct access permissions.
+- **Output Directory**: Ensure the directory has enough storage for potentially large datasets, as neuroimaging data can be quite large.
+- **Network Requirements**: A stable internet connection is recommended, as disconnections could interrupt large downloads.
+
+### Troubleshooting
+
+- **Permission Denied Error**: Ensure the specified output directory is accessible and that the user has write permissions.
+- **Connection Timeout**: Check the URL of the XNAT server and ensure there is internet access.
 
 ## During Execution
 
-When we execute the program, it will ask for the XNAT user (if it was not set as an argument) and the password of that user.
+Upon running the program, it will prompt you to enter the XNAT username (if not provided as an argument) and the password for that account:
 
-Then, the program will ask us which projects we want to download, just enter the numbers associated with the projects separated with space.
+```plaintext
+user: lenna
+password:
+```
 
-    user: lenna
-    password:
+After login, the program will display a list of available projects, each associated with a unique number. Select the projects you want to download by entering the corresponding numbers separated by spaces. For example:
 
-    1) p0012023         2) p0022021         3) p0022022         4) p0022023         5) p0032021         
-    6) p0032023         7) p0042021         8) p0052021         9) p0052022         10) p0062021         
-     
-    Choose the project: 1 3 4 
+```plaintext
+1) p0012023    2) p0022021    3) p0022022    4) p0022023    5) p0032021
+6) p0032023    7) p0042021    8) p0052021    9) p0052022    10) p0062021
+
+Choose the project(s): 1 3 4
+```
+
+This example will download projects `p0012023`, `p0022022`, and `p0022023`.
+
+---
 
 ## Contributing
 
-1. Fork the repo
-2. Create your feature branch (`git checkout -b feature/fooBar`)
-3. Commit your changes (`git commit -am 'Add some fooBar'`)
-4. Push to the branch (`git push origin feature/fooBar`)
-5. Create a new Pull Request
+To contribute to the project, follow these steps:
+
+1. **Fork the repository** on GitHub.
+2. **Create a new feature branch** for your changes:
+   ```bash
+   git checkout -b feature/yourFeatureName
+   ```
+3. **Commit your changes** with a clear message:
+   ```bash
+   git commit -am "Add feature description"
+   ```
+4. **Push your branch** to GitHub:
+   ```bash
+   git push origin feature/yourFeatureName
+   ```
+5. **Create a Pull Request** through GitHub's interface, detailing the improvements or features added.
+
+This process will initiate a review and, once approved, your changes will be merged into the main branch.
