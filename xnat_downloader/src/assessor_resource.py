@@ -94,7 +94,6 @@ class AssessorsResources(dict):
     def download(
         self,
         path_download,
-        bool_list_resources=[False, False, True, False, False, False],
         overwrite=False,
         verbose=False,
     ):

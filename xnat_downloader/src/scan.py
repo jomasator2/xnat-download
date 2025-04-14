@@ -46,7 +46,6 @@ class Scan(dict):
     def download(
         self,
         path_download,
-        bool_list_resources=[False, False, True, False, False, False],
         overwrite=False,
         verbose=False,
     ):
@@ -56,7 +55,6 @@ class Scan(dict):
             try:
                 resource_obj.download(
                     path_download,
-                    bool_list_resources=bool_list_resources,
                     overwrite=overwrite,
                     verbose=verbose,
                 )

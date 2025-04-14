@@ -110,7 +110,6 @@ def main():
             xnat_session.download_projects(
                 xnat_data_path,
                 with_department=True,
-                bool_list_resources=[True for char in types_files_xnat],
                 overwrite=overwrite,
                 verbose=verbose,
             )

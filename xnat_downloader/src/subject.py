@@ -40,7 +40,6 @@ class Subject(dict):
     def download(
         self,
         path_download,
-        bool_list_resources=[False, False, True, False, False, False],
         overwrite=False,
         verbose=False,
     ):
@@ -50,7 +49,7 @@ class Subject(dict):
         for session_obj in self.dict_sessions.values():
             # if "MR" in session_obj["label"]:
             session_obj.download(
-                path_download, bool_list_resources, overwrite=overwrite, verbose=verbose
+                path_download, overwrite=overwrite, verbose=verbose
             )
 
         print(

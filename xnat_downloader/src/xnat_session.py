@@ -130,7 +130,6 @@ class XnatSession:
         self,
         path_download,
         with_department=True,
-        bool_list_resources=[False, False, True, False, False, False],
         overwrite=False,
         verbose=False,
     ):
@@ -160,7 +159,6 @@ class XnatSession:
             self.dict_projects[key].download(
                 path_download,
                 with_department=with_department,
-                bool_list_resources=bool_list_resources,
                 overwrite=overwrite,
                 verbose=verbose,
             )

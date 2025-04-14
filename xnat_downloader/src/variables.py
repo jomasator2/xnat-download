@@ -1,5 +1,3 @@
-types_files_xnat = "sdnbrm"
-
 reset_terminal = chr(27) + "[2J"
 
 dict_paths = {
