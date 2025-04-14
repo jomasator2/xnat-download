@@ -37,17 +37,6 @@ dict_uris = {
     )
 }
 
-
-# def format_message (line, tab_value, message):
-#     return "\033[{:d};0H{:s}{:s}".format(
-#         line,
-#         "  " * tab_value + ("-> " if tab_value > 0 else ""),
-#         message)
-
-
-#def fformat_message (line, tab_value, message):
-#    return f"\033[{line};0H{{'  ' * tab_value} + ('-> ' if tab_value > 0 else '')}{message}"
-
 format_message = lambda line, tab_value, message: (
     f"\033[{line};0H{'  ' * tab_value + ('-> ' if tab_value > 0 else '')}{message}"
 )
