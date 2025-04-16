@@ -130,12 +130,17 @@ class XnatSession:
         self,
         path_download,
         with_department=True,
+        project_subjects={},
         overwrite=False,
         verbose=False,
     ):
         self.get_projects(verbose)
 
-        self.project_list = self.show_list_of_project(verbose)
+        if not project_subjects:
+            self.project_list = self.show_list_of_project(verbose)
+        else:
+            aux_project_list = [p for p in list(project_subjects.keys()) if p in self.dict_projects]
+            self.project_list = aux_project_list
         # clear console
         print(reset_terminal, end="", flush=True)
         print(
@@ -156,9 +161,20 @@ class XnatSession:
         bar_project.update(0)
 
         for iter, key in enumerate(self.project_list):
+            if key not in self.dict_projects:
+                print(
+                    format_message(
+                        self.level_verbose + 7,
+                        self.level_tab,
+                        f"Project {key} not found in XNAT.",
+                    ),
+                    flush=True,
+                )
+                continue
             self.dict_projects[key].download(
                 path_download,
                 with_department=with_department,
+                subject_list=project_subjects.get(key, [])
                 overwrite=overwrite,
                 verbose=verbose,
             )

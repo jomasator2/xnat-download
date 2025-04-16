@@ -40,6 +40,7 @@ class Subject(dict):
     def download(
         self,
         path_download,
+        subject_list=[],
         overwrite=False,
         verbose=False,
     ):

@@ -56,6 +56,58 @@ from .src.variables import types_files_xnat
 ###############################################################################
 
 
+def load_projects_and_subjects(file_path, project_key, subject_key, session_key=None, session_date_key=None, modality_key=None):
+    """
+    Load projects, subjects, and sessions from a file.
+    Supports JSON, CSV, and TSV formats.
+    """
+    import json
+    import csv
+
+    file_ext = Path(file_path).suffix.lower()
+    project_subjects = {}
+
+    if file_ext == ".json":
+        with open(file_path, "r") as f:
+            data = json.load(f)
+        for project, project_data in data["projects"].items():
+            project_subjects[project] = {
+                "subjects": {
+                    subject: {
+                        "sessions": details.get("sessions", {})
+                    }
+                    for subject, details in project_data["subjects"].items()
+                },
+                "metadata": {
+                    key: value for key, value in project_data.items() if key != "subjects"
+                }
+            }
+    elif file_ext in [".csv", ".tsv"]:
+        delimiter = "\t" if file_ext == ".tsv" else ","
+        with open(file_path, "r") as f:
+            reader = csv.DictReader(f, delimiter=delimiter)
+            for row in reader:
+                project_id = row.get(project_key)
+                subject_id = row.get(subject_key)
+                session_id = row.get(session_key)
+                session_date = row.get(session_date_key)
+                modality = row.get(modality_key)
+
+                if project_id not in project_subjects:
+                    project_subjects[project_id] = {"subjects": {}}
+                if subject_id not in project_subjects[project_id]["subjects"]:
+                    project_subjects[project_id]["subjects"][subject_id] = {"sessions": {}}
+                if session_id:
+                    project_subjects[project_id]["subjects"][subject_id]["sessions"][session_id] = {
+                        "session_date": session_date,
+                        "modality": modality,
+                    }
+    else:
+        raise ValueError("Unsupported file format. Please use JSON, CSV, or TSV.")
+    
+    return project_subjects
+    
+
 def main():
     """
     This Fuction is de main programme
@@ -83,6 +135,30 @@ def main():
         help="The directory where the files will be downloaded. Default: current directory",
     )
     parser.add_argument(
+        "-f",
+        "--file",
+        type=str,
+        help="Path to a file containing the list of projects and subjects to download. Format: JSON or CSV.",
+    )
+    parser.add_argument(
+        "--project_key",
+        type=str,
+        default="project_id",
+        help="The key or column name for project IDs in the input file. Default: 'project_id'.",
+    )
+    parser.add_argument(
+        "--subject_key",
+        type=str,
+        default="subject_id",
+        help="The key or column name for subject IDs in the input file. Default: 'subject_id'.",
+    )
+    parser.add_argument(
+        "--session_key",
+        type=str,
+        default="session_id",
+        help="The key or column name for session IDs in the input file. Default: 'session_id'.",
+    )
+    parser.add_argument(
         "-v ",
         "--verbose",
         default=True,
@@ -100,9 +176,23 @@ def main():
     page = args.web
     user = args.user
     xnat_data_path = Path(args.output_dir).resolve()
+    input_file = args.file
+    project_key = args.project_key
+    subject_key = args.subject_key
+    session_key = args.session_key
     verbose = args.verbose
     overwrite = args.overwrite
-    # Comprobation if Xnat dowload can be execute
+
+    # Validate input file
+    if input_file:
+        if not Path(input_file).is_file():
+            raise FileNotFoundError(f"The specified file '{input_file}' does not exist.")
+        # Load projects, subjects, and sessions from file
+        project_subjects = load_projects_and_subjects(input_file, project_key, subject_key, session_key)
+    else:
+        project_subjects = {}
+
+    # Check if XNAT download can be executed
     if xnat_data_path and page:
         xnat_data_path.mkdir(exist_ok=True)
         xnat_sesion_object = XnatSession(page, user)
@@ -110,11 +200,11 @@ def main():
             xnat_session.download_projects(
                 xnat_data_path,
                 with_department=True,
+                project_subjects=project_subjects,
                 overwrite=overwrite,
                 verbose=verbose,
             )
-        project_list = xnat_sesion_object.project_list
-
+            
 
 if __name__ == "__main__":
     main()
