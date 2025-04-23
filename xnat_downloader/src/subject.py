@@ -40,12 +40,31 @@ class Subject(dict):
     def download(
         self,
         path_download,
-        subject_list=[],
+        sessons_list=[],
         overwrite=False,
         verbose=False,
     ):
         print("\033[6;0H\u001b[0K", end="", flush=True)
         self.get_list_experiments(verbose)
+
+        if sessons_list:
+            sessions_to_download = {
+                session_id: content
+                for session_id, content in self.dict_sessions.items()
+                if session_id in sessons_list
+            }
+            if not self.dict_sessions:
+                print(
+                    format_message(
+                        self.level_verbose+7,
+                        self.level_tab,
+                        "No sessions to download",
+                    ),
+                    flush=True,
+                )
+                return
+
+            self.dict_sessions = sessions_to_download
         # move the cursor
         for session_obj in self.dict_sessions.values():
             # if "MR" in session_obj["label"]:
