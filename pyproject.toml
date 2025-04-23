@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=64", "setuptools_scm>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "xnat_downloader"
+version = "0.1.20250423"
+description = "Download XNAT project with python requests"
+readme = {file = "README.md", content-type = "text/markdown"}
+license = {text = "GNU GPLv3"}
+authors = [
+    {name = "Jose Manuel Saborit-Torres", email = "josemanuel.saborit@fisabio.es"},
+    {name = "Alejandro Mora-Rubio"}
+]
+
+requires-python = ">=3.8"
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Medical Science Apps.",
+    "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+    "Programming Language :: Python :: 3 :: Only"
+]
+
+dependencies = [
+    "certifi>=2023.11.17",
+    "numpy>=1.24.4",
+    "pandas>=2.0.3",
+    "progressbar2>=4.2.0",
+    "pydicom>=2.4.3",
+    "requests>=2.31.0",
+    "tqdm>=4.66.1"
+]
+
+[project.scripts]
+xnat_downloader = "xnat_downloader.__main__:main"
+
+[project.urls]
+Homepage = "https://github.com/BIMCV-CSUSP/xnat-download"
+Issues = "https://github.com/BIMCV-CSUSP/xnat-download/issues"
