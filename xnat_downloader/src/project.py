@@ -79,7 +79,7 @@ class Project(dict):
                         ),
                         flush=True,
                     )
-        
+            self.dict_subjects = subjects_to_download
         # move the cursor
         # print("\033[4;0H", end="",flush=True)
         bar_subject = progressbar.ProgressBar(
