@@ -64,7 +64,7 @@ class Project(dict):
                             format_message(
                                 self.level_verbose + 7,
                                 self.level_tab,
-                                f"There are no subjects in the table provided for the project {row["project"]["secondary_ID"]}.",
+                                f"There are no subjects in the table provided for the project {self['secondary_ID']}.",
                             ),
                             flush=True,
                         )
@@ -75,7 +75,7 @@ class Project(dict):
                         format_message(
                             self.level_verbose + 7,
                             self.level_tab,
-                            f"The following subjects do not exist in the table provided for the project {row["project"]["secondary_ID"]}: {missing_subjects}",
+                            f"The following subjects do not exist in the table provided for the project {['secondary_ID']}: {missing_subjects}",
                         ),
                         flush=True,
                     )
