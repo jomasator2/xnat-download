@@ -129,7 +129,6 @@ class XnatSession:
     def download_projects(
         self,
         path_download,
-        with_department=True,
         project_subjects={},
         overwrite=False,
         verbose=False,
