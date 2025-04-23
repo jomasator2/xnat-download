@@ -40,18 +40,18 @@ class Subject(dict):
     def download(
         self,
         path_download,
-        sessons_list=[],
+        sessions_list=[],
         overwrite=False,
         verbose=False,
     ):
         print("\033[6;0H\u001b[0K", end="", flush=True)
         self.get_list_experiments(verbose)
 
-        if sessons_list:
+        if sessions_list:
             sessions_to_download = {
                 session_id: content
                 for session_id, content in self.dict_sessions.items()
-                if session_id in sessons_list
+                if session_id in sessions_list
             }
             if not self.dict_sessions:
                 print(
@@ -63,7 +63,6 @@ class Subject(dict):
                     flush=True,
                 )
                 return
-
             self.dict_sessions = sessions_to_download
         # move the cursor
         for session_obj in self.dict_sessions.values():

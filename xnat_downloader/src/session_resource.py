@@ -10,9 +10,7 @@ from io import StringIO
 from shutil import copyfile
 import requests
 from .request import try_to_request
-from .variables import types_files_xnat
 from .variables import format_message
-from .variables import reset_terminal
 from .variables import dict_paths
 from .variables import dict_uris
 
