@@ -49,7 +49,6 @@ import argparse
 from pathlib import Path
 
 from .src.xnat_session import XnatSession
-from .src.variables import types_files_xnat
 
 ###############################################################################
 # Functions
