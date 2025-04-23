@@ -174,7 +174,7 @@ class XnatSession:
             self.dict_projects[key].download(
                 path_download,
                 with_department=with_department,
-                subject_list=project_subjects.get(key, [])
+                subject_list=project_subjects.get(key, {}),
                 overwrite=overwrite,
                 verbose=verbose,
             )
