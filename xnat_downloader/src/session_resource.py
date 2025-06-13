@@ -67,7 +67,7 @@ class SessionResource(dict):
     ):
         complet_path = path_download.joinpath(
             dict_paths["path_resources"](
-                self["session"]["subject"]["ID"], self["session"]["ID"], self["label"]
+                self["session"]["subject"]["label"], self["session"]["label"], self["label"]
             )
         )
 
