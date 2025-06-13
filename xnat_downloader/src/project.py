@@ -55,33 +55,42 @@ class Project(dict):
         self.get_list_subjects(verbose)
         if subject_list:
             subjects_to_download = {
-            subject_id: content
-            for subject_id, content in self.dict_subjects.items()
-            if subject_id in subject_list.keys()
+                subject_id: content
+                for subject_id, content in self.dict_subjects.items()
+                if content["label"] in subject_list.keys()
             }
             if not self.dict_subjects:
                 print(
                             format_message(
-                                self.level_verbose + 7,
+                                self.level_verbose + 13,
                                 self.level_tab,
                                 f"There are no subjects in the table provided for the project {self['secondary_ID']}.",
                             ),
                             flush=True,
                         )
                 return
-            missing_subjects = [key for key in subject_list.keys() if key not in self.dict_subjects]
+
+            list_labels = [content["label"] for content in subjects_to_download.values()]
+            missing_subjects = [key for key in subject_list.keys() if key not in list_labels]
             if missing_subjects:
                 print(
                         format_message(
-                            self.level_verbose + 7,
+                            self.level_verbose + 14,
                             self.level_tab,
-                            f"The following subjects do not exist in the table provided for the project {['secondary_ID']}: {missing_subjects}",
+                            f"The following subjects do not exist in the table provided for the project {len(missing_subjects)}",
                         ),
                         flush=True,
                     )
+                return
             self.dict_subjects = subjects_to_download
+            
+        # print(
+        #     format_message(self.level_verbose + 12, self.level_tab, f"Subject:{self.dict_subjects.keys()}"),
+        #     end="",
+        #     flush=True,
+        # )
         # move the cursor
-        # print("\033[4;0H", end="",flush=True)
+        print("\033[4;0H", end="",flush=True)
         bar_subject = progressbar.ProgressBar(
             maxval=len(self.dict_subjects),
             prefix=format_message(self.level_verbose - 1, 0, ""),
@@ -90,7 +99,7 @@ class Project(dict):
             subject_obj.download(
                 path_download,
                 overwrite=overwrite,
-                sessions_list=subject_list.get(subject_obj["ID"], []),
+                sessions_list=subject_list.get(subject_obj["label"], {"sessions":[]})["sessions"],
                 verbose=verbose
             )
             print(format_message(self.level_verbose - 1, 0, ""))
