@@ -32,6 +32,8 @@ dependencies = [
     "requests>=2.31.0",
     "tqdm>=4.66.1"
 ]
+[project.optional-dependencies] 
+testing = ["pytest", "pytest-cov"]
 
 [project.scripts]
 xnat_downloader = "xnat_downloader.__main__:main"
