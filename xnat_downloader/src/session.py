@@ -118,7 +118,7 @@ class Session(dict):
         overwrite=False,
         verbose=False,
     ):
-        # print("\033[7;0H\u001b[0K", end="",flush=True)
+        print("\033[7;0H\u001b[0K", end="",flush=True)
         self.get_list_scans(verbose)
         for scan_obj in self.dict_scans.values():
             # if "anat" in scan_obj["ID"]:

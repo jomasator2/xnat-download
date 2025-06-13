@@ -51,7 +51,7 @@ class Subject(dict):
             sessions_to_download = {
                 session_id: content
                 for session_id, content in self.dict_sessions.items()
-                if session_id in sessions_list
+                if content["label"] in sessions_list
             }
             if not self.dict_sessions:
                 print(
