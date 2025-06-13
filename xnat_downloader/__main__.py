@@ -64,43 +64,43 @@ def load_projects_and_subjects(file_path, project_key, subject_key, session_key=
     import csv
 
     file_ext = Path(file_path).suffix.lower()
-    project_subjects = {}
+    project_subjects = {"projects": {}}
 
     if file_ext == ".json":
-        with open(file_path, "r") as f:
+        if file_path.stat().st_size == 0:
+            raise ValueError("The provided file is empty.")
+        with file_path.open("r") as f:
             data = json.load(f)
-        for project, project_data in data["projects"].items():
-            project_subjects[project] = {
+        for project, project_data in data[project_key].items():
+            project_subjects["projects"][project] = {
                 "subjects": {
                     subject: {
-                        "sessions": details.get("sessions", {})
+                        "sessions": details.get(session_key, {})
                     }
-                    for subject, details in project_data["subjects"].items()
+                    for subject, details in project_data[subject_key].items()
                 },
                 "metadata": {
                     key: value for key, value in project_data.items() if key != "subjects"
                 }
             }
     elif file_ext in [".csv", ".tsv"]:
+        
+        if file_path.stat().st_size == 0:
+            raise ValueError("The provided file is empty.")
         delimiter = "\t" if file_ext == ".tsv" else ","
-        with open(file_path, "r") as f:
+        with file_path.open("r") as f:
             reader = csv.DictReader(f, delimiter=delimiter)
             for row in reader:
                 project_id = row.get(project_key)
                 subject_id = row.get(subject_key)
                 session_id = row.get(session_key)
-                session_date = row.get(session_date_key)
-                modality = row.get(modality_key)
 
-                if project_id not in project_subjects:
-                    project_subjects[project_id] = {"subjects": {}}
-                if subject_id not in project_subjects[project_id]["subjects"]:
-                    project_subjects[project_id]["subjects"][subject_id] = {"sessions": {}}
+                if project_id not in project_subjects["projects"]:
+                    project_subjects["projects"][project_id] = {"subjects": {}}
+                if subject_id not in project_subjects["projects"][project_id]["subjects"]:
+                    project_subjects["projects"][project_id]["subjects"][subject_id] = {"sessions": []}
                 if session_id:
-                    project_subjects[project_id]["subjects"][subject_id]["sessions"][session_id] = {
-                        "session_date": session_date,
-                        "modality": modality,
-                    }
+                    project_subjects["projects"][project_id]["subjects"][subject_id]["sessions"].append(session_id)
     else:
         raise ValueError("Unsupported file format. Please use JSON, CSV, or TSV.")
     
@@ -129,14 +129,14 @@ def main():
     parser.add_argument(
         "-o",
         "--output_dir",
-        type=str,
+        type=Path,
         default=".",
         help="The directory where the files will be downloaded. Default: current directory",
     )
     parser.add_argument(
         "-f",
         "--file",
-        type=str,
+        type=Path,
         help="Path to a file containing the list of projects and subjects to download. Format: JSON or CSV.",
     )
     parser.add_argument(
@@ -174,7 +174,7 @@ def main():
     args = parser.parse_args()
     page = args.web
     user = args.user
-    xnat_data_path = Path(args.output_dir).resolve()
+    xnat_data_path = args.output_dir.resolve()
     input_file = args.file
     project_key = args.project_key
     subject_key = args.subject_key
@@ -198,8 +198,7 @@ def main():
         with xnat_sesion_object as xnat_session:
             xnat_session.download_projects(
                 xnat_data_path,
-                with_department=True,
-                project_subjects=project_subjects,
+                project_subjects=project_subjects["projects"],
                 overwrite=overwrite,
                 verbose=verbose,
             )
