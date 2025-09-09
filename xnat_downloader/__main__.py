@@ -189,7 +189,7 @@ def main():
         # Load projects, subjects, and sessions from file
         project_subjects = load_projects_and_subjects(input_file, project_key, subject_key, session_key)
     else:
-        project_subjects = {}
+        project_subjects = {"projects": {}}
 
     # Check if XNAT download can be executed
     if xnat_data_path and page:
