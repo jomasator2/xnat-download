@@ -51,7 +51,7 @@ class AssessorsResources(dict):
     def download_roi_files(
         self, path_download, filename, overwrite=False, verbose=False
     ):
-        complet_path = path_download + dict_paths["path_download_roi"](
+        complet_path = path_download / dict_paths["path_download_roi"](
             self["assessors"]["session"]["subject"]["label"],
             self["assessors"]["session"]["label"],
             self["assessors"]["label"],
